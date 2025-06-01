@@ -97,7 +97,6 @@ struct RecipeDetailView: View {
             Text("Web")
                 .foregroundStyle(.white)
                 .bold()
-                .fontDesign(.rounded)
         }
     }
     
@@ -112,7 +111,6 @@ struct RecipeDetailView: View {
             Text("Youtube")
                 .foregroundStyle(.white)
                 .bold()
-                .fontDesign(.rounded)
         }
     }
 }

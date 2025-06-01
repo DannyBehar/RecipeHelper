@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeListView: View {
     @ObservedObject var viewModel: RecipeViewModel
+    @State private var isShowingAboutUsScreen = false
     
     var body: some View {
         VStack {
@@ -52,9 +53,13 @@ struct RecipeListView: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                HStack(spacing: 4) {
+                Button {
+                    isShowingAboutUsScreen.toggle()
+                } label: {
                     Image(systemName: "fork.knife")
+                        .imageScale(.large)
                 }
+                .tint(.primary)
             }
             
             ToolbarItem(placement: .primaryAction) {
@@ -63,6 +68,11 @@ struct RecipeListView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $viewModel.searchText)
+        .sheet(isPresented: $isShowingAboutUsScreen) {
+            NavigationStack {
+                AboutUsView()
+            }
+        }
         .environmentObject(viewModel)
     }
     
