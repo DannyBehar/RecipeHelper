@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "apple-frangipan-tart-small.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

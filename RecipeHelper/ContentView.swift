@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = RecipeViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            RecipeListView(viewModel: viewModel)
         }
-        .padding()
+        .task {
+            await viewModel.fetchRecipes()
+        }
     }
 }
 

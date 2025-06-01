@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "strawberry-rhubarb-pie-small.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

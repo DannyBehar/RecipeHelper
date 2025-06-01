@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "sugar-pie-small.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
