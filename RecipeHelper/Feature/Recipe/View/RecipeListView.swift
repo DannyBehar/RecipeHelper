@@ -14,7 +14,7 @@ struct RecipeListView: View {
         VStack {
             switch viewModel.status {
             case .loading:
-                Text("Loading!!!")
+                RecipeHelperLoadingView()
             case .fetched:
                 if viewModel.recipes.isEmpty {
                     emptyStateView

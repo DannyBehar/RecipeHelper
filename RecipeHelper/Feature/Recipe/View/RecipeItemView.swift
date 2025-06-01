@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeItemView: View {
     @StateObject var viewModel = RecipeItemViewModel()
-    @ScaledMetric var imageSize = 72
+    @ScaledMetric var imageSize = Constants.listItemImageSize
     
     let recipe: Recipe
     
