@@ -10,6 +10,7 @@ import SwiftUI
 @MainActor
 class RecipeViewModel: ObservableObject {
     enum Status {
+        case initial
         case loading
         case fetched
         case error
@@ -18,7 +19,7 @@ class RecipeViewModel: ObservableObject {
     @Published var recipes: [Recipe] = []
     @Published var searchText = ""
     @Published var selectedCuisine: Cuisine? = nil
-    @Published var status: Status = .loading
+    @Published var status: Status = .initial
     
     let recipeUrl = Constants.recipesUrlString
     let dataService: Fetchable
@@ -27,14 +28,10 @@ class RecipeViewModel: ObservableObject {
         self.dataService = dataService
     }
     
-    private lazy var decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
-    
     var shouldPresentLongerLoadingTime: Bool {
-        status == .error || (status == .fetched && recipes.isEmpty)
+        status == .initial ||
+        status == .error ||
+        (status == .fetched && recipes.isEmpty)
     }
     
     var filteredRecipes: [Recipe] {
@@ -58,6 +55,12 @@ class RecipeViewModel: ObservableObject {
     var availableCuisines: [Cuisine] {
         Set(recipes.compactMap(\.cuisineType)).sorted(by: { $0.rawValue < $1.rawValue })
     }
+    
+    private lazy var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
     
     func fetchRecipes(forceRefresh: Bool = false,
                       delay: Double = 2.0) async {

@@ -15,7 +15,7 @@ struct ContentView: View {
             RecipeListView(viewModel: viewModel)
         }
         .task {
-            await viewModel.fetchRecipes()
+            await viewModel.fetchRecipes(delay: 0.5)
         }
     }
 }

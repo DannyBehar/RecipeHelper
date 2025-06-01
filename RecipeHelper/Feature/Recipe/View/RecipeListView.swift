@@ -13,7 +13,7 @@ struct RecipeListView: View {
     var body: some View {
         VStack {
             switch viewModel.status {
-            case .loading:
+            case .initial, .loading:
                 RecipeHelperLoadingView()
             case .fetched:
                 if viewModel.recipes.isEmpty {
@@ -31,11 +31,14 @@ struct RecipeListView: View {
                             .listSectionSeparator(.hidden, edges: .top)
                         }
                         .listStyle(.plain)
+                        .refreshable {
+                            await viewModel.fetchRecipes(forceRefresh: true)
+                        }
                         .onChange(of: viewModel.selectedCuisine) { _ in
                             guard let firstRecipeId = viewModel.filteredRecipes.first?.id else {
                                 return
                             }
-
+                            
                             withAnimation {
                                 proxy.scrollTo(firstRecipeId, anchor: .bottom)
                             }
@@ -45,6 +48,7 @@ struct RecipeListView: View {
             case .error:
                 errorStateView
             }
+            
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -54,15 +58,12 @@ struct RecipeListView: View {
             }
             
             ToolbarItem(placement: .primaryAction) {
-               filterByCuisinePicker
+                filterByCuisinePicker
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $viewModel.searchText)
         .environmentObject(viewModel)
-        .refreshable {
-            await viewModel.fetchRecipes(forceRefresh: true)
-        }
     }
     
     var filterByCuisinePicker: some View {
@@ -109,7 +110,7 @@ struct RecipeListView: View {
         VStack {
             RecipeUnavailableView.error()
             tryAgainButton
-            .padding(.bottom, Spacing.small)
+                .padding(.bottom, Spacing.small)
         }
     }
     

@@ -8,30 +8,48 @@
 import SwiftUI
 
 struct RecipeHelperLoadingView: View {
+    @State private var isShowing = false
     @State var shimmerEeffect = false
     @ScaledMetric var imageSize = Constants.listItemImageSize
     
     var body: some View {
+        Group {
+            if isShowing {
+                contentView
+            } else {
+                Color(.systemBackground)
+            }
+        }
+        .task {
+            // need to wait for SwiftUI to establish the view port width before starting the animation
+            await Task.sleep(seconds: 0.01)
+            isShowing.toggle()
+        }
+    }
+    
+    var contentView: some View {
         ScrollView {
             VStack(spacing: Spacing.medium) {
                 ForEach(0..<20, id: \.self) { index in
                     HStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(LinearGradient(colors: [Color(.systemGray4), Color(.systemGray5)],
+                            .fill(LinearGradient(colors: [Color(.systemGray5), Color(.systemGray6)],
                                                  startPoint: .leading,
                                                  endPoint: shimmerEeffect ? .trailing : .leading))
                             .frame(width: imageSize, height: imageSize)
                         
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(LinearGradient(colors: [Color(.systemGray4), Color(.systemGray5)],
+                            .fill(LinearGradient(colors: [Color(.systemGray5), Color(.systemGray6)],
                                                  startPoint: .leading,
                                                  endPoint: shimmerEeffect ? .trailing : .leading))
-                            .frame(maxWidth: .infinity)
+                            
                     }
-                    .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: false), value: shimmerEeffect)
+                    .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: false), value: shimmerEeffect)
+                    
                 }
             }
         }
+        .scrollIndicators(.hidden)
         .onAppear {
             shimmerEeffect.toggle()
         }
@@ -41,5 +59,5 @@ struct RecipeHelperLoadingView: View {
 }
 
 #Preview {
- RecipeHelperLoadingView()
+    RecipeHelperLoadingView()
 }

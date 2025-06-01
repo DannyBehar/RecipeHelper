@@ -17,12 +17,25 @@ struct RecipeViewModelTests {
         #expect(subject.recipes.isEmpty, "Should initialize with an empty list of recipes.")
         #expect(subject.searchText.isEmpty, "Should initialize with an empty search text.")
         #expect(subject.selectedCuisine == nil, "Should initialize with no selected cuisine.")
-        #expect(subject.status == .loading, "Should initialize in loding status.")
+        #expect(subject.status == .initial, "Should initialize in initial status.")
     }
     
     @MainActor @Suite("Should present longer loading time")
     struct ShouldPresentLongerLoadingTimeTests {
         let subject = RecipeViewModel()
+        
+        @Test("when in initial status")
+        func shouldWaitLongerToLoad_whenInInitialStatus() {
+            // given
+            subject.status = .initial
+            
+            // when
+            let shouldPresentLongerLoadingTime = subject.shouldPresentLongerLoadingTime
+            
+            // then
+            #expect(shouldPresentLongerLoadingTime == true,
+                    "When a user starts the app, they should be presented with a longer loading time.")
+        }
         
         @Test("when in error status")
         func shouldWaitLongerToLoad_whenInErrorStatus() {
