@@ -56,10 +56,14 @@ struct RecipeListView: View {
                 Button {
                     isShowingAboutUsScreen.toggle()
                 } label: {
-                    Image(systemName: "fork.knife")
+                    Label("Reciplease", systemImage: "fork.knife")
                         .imageScale(.large)
+                        .fontWeight(.semibold)
+                        .labelStyle(.iconOnly)
                 }
                 .tint(.primary)
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityHint("Learn more about the developer")
             }
             
             ToolbarItem(placement: .primaryAction) {

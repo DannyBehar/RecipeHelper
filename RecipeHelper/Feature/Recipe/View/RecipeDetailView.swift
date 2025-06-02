@@ -33,6 +33,7 @@ struct RecipeDetailView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 18))
                     .padding(Spacing.large)
                     .shadow(radius: 12)
+                    .accessibilityHidden(true)
             }
             
             if shouldShowBottomPanel {
@@ -83,6 +84,7 @@ struct RecipeDetailView: View {
                 .ignoresSafeArea()
                 .blur(radius: 18)
                 .padding(.top, Spacing.mediumLarge)
+                .accessibilityHidden(true)
         }
     }
     
