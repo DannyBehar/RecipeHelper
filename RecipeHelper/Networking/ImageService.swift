@@ -30,7 +30,7 @@ class ImageService: ImageFetchable {
         
         if let cachedData = cache.cachedResponse(for: request)?.data {
             guard let uiImage = UIImage(data: cachedData) else {
-                throw NetworkError.decodingError("Unable to decode image for URL: \(request.url?.absoluteString ?? "Unknown")")
+                throw NetworkError.decodingError(description: "Unable to decode image for URL: \(urlString)")
             }
             return uiImage
         }
@@ -41,7 +41,8 @@ class ImageService: ImageFetchable {
     private func fetchAndStore(request: URLRequest) async throws -> UIImage {
         let (data, response) = try await URLSession.shared.fetchData(for: request)
         guard let uiImage = UIImage(data: data) else {
-            throw NetworkError.decodingError("Unable to decode image for URL: \(request.url?.absoluteString ?? "Unknown")")
+            let urlString = request.url?.absoluteString ?? "Unknown URL"
+            throw NetworkError.decodingError(description: "Unable to decode image for URL: \(urlString)")
         }
         cache.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
         return uiImage

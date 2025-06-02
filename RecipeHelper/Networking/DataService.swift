@@ -27,7 +27,7 @@ class RecipeService: RecipeFetchable {
  
     func fetchData(from urlString: String, forceRefresh: Bool) async throws -> RecipeResponse {
         guard let url = URL(string: urlString) else {
-            throw NetworkError.invalidURL("\(urlString) is not a valid URL")
+            throw NetworkError.invalidURL(urlString)
         }
         
         let cachePolicy: URLRequest.CachePolicy = forceRefresh ? .reloadIgnoringLocalAndRemoteCacheData : .returnCacheDataElseLoad
@@ -58,7 +58,7 @@ class RecipeService: RecipeFetchable {
         do {
             return try decoder.decode(RecipeResponse.self, from: data)
         } catch {
-            throw NetworkError.decodingError("Unable to decode image for URL: \(request.url?.absoluteString ?? "Unknown")")
+            throw NetworkError.decodingError(description: error.localizedDescription)
         }
     }
 }

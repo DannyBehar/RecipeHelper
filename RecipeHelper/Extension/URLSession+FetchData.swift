@@ -14,7 +14,7 @@ extension URLSession {
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
-            throw NetworkError.invalidServerResponse("Server returned an invalid response: \(statusCode)")
+            throw NetworkError.invalidServerResponse(statusCode: statusCode)
         }
         
         return (data, response)
