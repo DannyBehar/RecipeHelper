@@ -1,6 +1,9 @@
 ### **Summary: Include screen shots or a video of your app highlighting its features**
 
 ## **Reciplease**
+
+![RecipleaseAppIcon](https://github.com/user-attachments/assets/e3b91bd4-b1d6-4f4c-993d-80c9a5643056)
+
 Reciplease is an app for iOS written with SwiftUI and Swift Concurrency. It allows users to browse a collection of recipes and view or share quick links to youtube or the recipe website.
 
 ### **Overview of features**
