@@ -4,6 +4,10 @@
 ### **Summary: Include screen shots or a video of your app highlighting its features**
 Reciplease is an app for iOS written with SwiftUI and Swift Concurrency. It allows users to browse a collection of recipes and view or share quick links to youtube or the recipe website.
 
+
+https://github.com/user-attachments/assets/cf94f8c8-2b31-41ca-8886-5547062bf86e
+
+
 ### **Overview of features**
 - Browse from a collection of recipes
 - Search by recipe name
@@ -11,8 +15,6 @@ Reciplease is an app for iOS written with SwiftUI and Swift Concurrency. It allo
 - Quick links for youtube and web recipe if available
 - Share sheet for web and youtube links
 - Dark Mode
-  
-https://github.com/user-attachments/assets/4765d2dd-9f13-46bc-bd61-a828c2eff253
 
 ### **Focus Areas: What specific areas of the project did you prioritize? Why did you choose to focus on these areas?**
 I focused on the following core features:
