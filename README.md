@@ -1,19 +1,27 @@
 ### **Summary: Include screen shots or a video of your app highlighting its features**
+
+## **Reciplease**
+Reciplease is an app for iOS written with SwiftUI and Swift Concurrency. It allows users to browse a collection of recipes and view or share quick links to youtube or the recipe website.
+
+### **Overview of features**
+- Browse from a collection of recipes
+- Search by recipe name
+- Filter results by cuisine
+- Quick links for youtube and web recipe if available
+- Share sheet for web and youtube links
+- Dark Mode
+  
 https://github.com/user-attachments/assets/4765d2dd-9f13-46bc-bd61-a828c2eff253
 
 ### **Focus Areas: What specific areas of the project did you prioritize? Why did you choose to focus on these areas?**
 I focused on the following core features:
-- Fetching and caching the recipes metadata and images
-- Searching and filtering by cuisine
-- Quick links for youtube and web recipe if available
-- Share sheet for web and youtube links
-- Accessibility (VoiceOver, DynamicType, Dark Mode)
 
-And the technical stack overview:
-- Unit Tests with Swift Testing
+- Fetching and caching the recipes metadata and images
 - Fetching and caching with Swift Concurrency, URLSession, and URLCache
 - SwiftUI with ObservableObject
 - Full support for SwiftUI previews
+- Unit Tests with Swift Testing
+- Accessibility (VoiceOver, DynamicType, Dark Mode)
 - Utilizes assets in the Preview folder for previews and unit tests which is set to be a developer resource and therefore won't ship to the IPA!
 
 These are the core set of features that I'd want as a user of the app. I wanted to concentrate on this core set of features in order to deliver a high quality, accessible, and flexible experience. 
