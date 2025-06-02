@@ -22,9 +22,9 @@ class RecipeViewModel: ObservableObject {
     @Published var status: Status = .initial
     
     let recipeUrl = Constants.recipesUrlString
-    let dataService: Fetchable
+    let dataService: RecipeFetchable
     
-    init(dataService: Fetchable = DataService(cachePath: "recipeDataCache", diskCapacity: 10.megabytes)) {
+    init(dataService: RecipeFetchable = RecipeService()) {
         self.dataService = dataService
     }
     
@@ -56,12 +56,6 @@ class RecipeViewModel: ObservableObject {
         Set(recipes.compactMap(\.cuisineType)).sorted(by: { $0.rawValue < $1.rawValue })
     }
     
-    private lazy var decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
-    
     func fetchRecipes(forceRefresh: Bool = false,
                       delay: Double = 2.0) async {
         do {
@@ -71,8 +65,7 @@ class RecipeViewModel: ObservableObject {
                 await Task.sleep(seconds: delay)
             }
             
-            let data = try await dataService.fetchData(from: recipeUrl, forceRefresh: forceRefresh)
-            let recipeResponse = try decoder.decode(RecipeResponse.self, from: data)
+            let recipeResponse: RecipeResponse = try await dataService.fetchData(from: recipeUrl, forceRefresh: forceRefresh)
             recipes = recipeResponse.recipes
             status = .fetched
         } catch {

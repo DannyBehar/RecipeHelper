@@ -7,4 +7,6 @@
 
 enum NetworkError: Error {
     case invalidURL(String)
+    case invalidServerResponse(String)
+    case decodingError(String)
 }

@@ -12,21 +12,25 @@ class RecipeItemViewModel: ObservableObject {
     @Published var smallImage: UIImage?
     @Published var largeImage: UIImage?
     
-    let dataService: Fetchable
+    let dataService: ImageFetchable
     
-    init(dataService: Fetchable = DataService(cachePath: "imageDataCache", diskCapacity: 100.megabytes)) {
+    init(dataService: ImageFetchable = ImageService()) {
         self.dataService = dataService
     }
     
     func fetchImage(for recipe: Recipe, size: RecipeImageSize) async {
-        guard image(for: size) == nil else { return }
+        guard image(for: size) == nil,
+        let urlString = recipe.getPhotoUrlString(for: size) else { return }
         
-        guard let urlString = recipe.getPhotoUrlString(for: size),
-              let imageData = try? await dataService.fetchData(from: urlString, forceRefresh: false) else { return }
-        
-        switch size {
-        case .small: smallImage = UIImage(data: imageData)
-        case .large: largeImage = UIImage(data: imageData)
+        do {
+            let uiImage = try await dataService.fetchImage(from: urlString)
+            
+            switch size {
+            case .small: smallImage = uiImage
+            case .large: largeImage = uiImage
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     

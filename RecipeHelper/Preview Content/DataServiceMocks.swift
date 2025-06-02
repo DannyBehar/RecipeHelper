@@ -7,23 +7,26 @@
 
 import SwiftUI
 
-class MockSuccessDataService: Fetchable {
-    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> Data {
-        let url = Bundle.main.url(forResource: "recipes", withExtension: "json")!
-        return try! Data(contentsOf: url)
+class MockSuccessDataService: RecipeFetchable {
+    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> RecipeResponse {
+        return RecipeResponse(recipes: Recipe.allMocks)
     }
 }
 
-class MockFailureDataService: Fetchable {
-    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> Data {
+class MockFailureDataService: RecipeFetchable {
+    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> RecipeResponse {
         throw NetworkError.invalidURL("Invalid URL")
     }
 }
 
-class MockImageSuccessDataService: Fetchable {
-    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> Data {
-        let uiImage = UIImage(named: "banana-pancakes-small")!
-        let pngData = uiImage.pngData()!
-        return pngData
+class MockImageSuccessDataService: ImageFetchable {
+    func fetchImage(from urlString: String) async throws -> UIImage {
+        UIImage(named: "banana-pancakes-small")!
+    }
+}
+
+class MockImageFailureDataService: ImageFetchable {
+    func fetchImage(from urlString: String) async throws -> UIImage {
+        throw NetworkError.invalidURL("Invalid URL")
     }
 }

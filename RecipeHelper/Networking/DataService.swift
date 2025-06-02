@@ -5,26 +5,27 @@
 //  Created by Daniel Behar on 5/28/25.
 //
 
-import SwiftUI
+import Foundation
 
-protocol Fetchable {
-    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> Data
+protocol RecipeFetchable {
+    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> RecipeResponse
 }
 
-class DataService: Fetchable {
-    let cachePath: String
-    let diskCapacity: Int.Bytes
-    
+class RecipeService: RecipeFetchable {
     lazy private var cache: URLCache = {
-        URLCache(memoryCapacity: 0, diskCapacity: diskCapacity, diskPath: cachePath)
+        URLCache(memoryCapacity: 0, diskCapacity: 10.megabytes, diskPath: "recipeDataCache")
     }()
     
-    init(cachePath: String, diskCapacity: Int.Bytes) {
-        self.cachePath = cachePath
-        self.diskCapacity = diskCapacity
+    private lazy var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
+    
+    init() {
     }
  
-    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> Data {
+    func fetchData(from urlString: String, forceRefresh: Bool) async throws -> RecipeResponse {
         guard let url = URL(string: urlString) else {
             throw NetworkError.invalidURL("\(urlString) is not a valid URL")
         }
@@ -37,15 +38,27 @@ class DataService: Fetchable {
         }
         
         if let cachedData = cache.cachedResponse(for: request)?.data {
-            return cachedData
+            return try decodeData(cachedData, for: request)
         }
         
         return try await fetchAndStore(request: request)
     }
     
-    private func fetchAndStore(request: URLRequest) async throws -> Data {
-        let (data, urlResopnse) = try await URLSession.shared.data(for: request)
-        cache.storeCachedResponse(CachedURLResponse(response: urlResopnse, data: data), for: request)
-        return data
+    private func fetchAndStore(request: URLRequest) async throws -> RecipeResponse {
+        let (data, response) = try await URLSession.shared.fetchData(for: request)
+        
+        let decodedData = try decodeData(data, for: request)
+        
+        cache.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
+       
+        return decodedData
+    }
+    
+    private func decodeData(_ data: Data, for request: URLRequest) throws -> RecipeResponse {
+        do {
+            return try decoder.decode(RecipeResponse.self, from: data)
+        } catch {
+            throw NetworkError.decodingError("Unable to decode image for URL: \(request.url?.absoluteString ?? "Unknown")")
+        }
     }
 }

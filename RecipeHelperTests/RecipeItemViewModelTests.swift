@@ -64,7 +64,7 @@ struct RecipeItemViewModelTests {
         @Test("fails to fetch small image")
         func fetchSmallImageFails() async throws {
             // given
-            let service = MockFailureDataService()
+            let service = MockImageFailureDataService()
             let subject = RecipeItemViewModel(dataService: service)
             subject.smallImage = nil
             subject.largeImage = nil
@@ -80,7 +80,7 @@ struct RecipeItemViewModelTests {
         @Test("fails to fetch large image")
         func fetchLargeImageFails() async throws {
             // given
-            let service = MockFailureDataService()
+            let service = MockImageFailureDataService()
             let subject = RecipeItemViewModel(dataService: service)
             subject.smallImage = nil
             subject.largeImage = nil
