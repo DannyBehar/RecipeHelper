@@ -36,7 +36,7 @@ struct RecipeDetailView: View {
             }
             
             if shouldShowBottomPanel {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.mediumSmall) {
                     if let url = URL(string: recipe.sourceUrl ?? "") {
                         Link(destination: url) {
                             youtubeButtonContent

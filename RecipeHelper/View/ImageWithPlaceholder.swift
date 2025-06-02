@@ -40,7 +40,7 @@ struct ImageWithPlaceholderPreviewContainer: View {
         VStack(spacing: Spacing.medium) {
             ImageWithPlaceholder(uiImage: uiImage)
                 .scaledToFit()
-                .frame(width: 64, height: 64)
+                .frame(width: 72, height: 72)
             
             Button("Toggle Image") {
                 loadImage()
