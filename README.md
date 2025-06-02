@@ -20,20 +20,23 @@ These are the core set of features that I'd want as a user of the app. I wanted 
 
 
 ### **Time Spent: Approximately how long did you spend working on this project? How did you allocate your time?**
-I started working on the project Wednesday evening on May 28th 2025 and added the finishing touches on Sunday June 1st 2025. I Worked on the project off and on in 1-2 hour work sessions while balancing other work and responsibilities.
+I started working on the project Wednesday evening on May 28th 2025 and added the finishing touches on Monday morning June 2, 2025. I Worked on the project off and on in 1-2 hour work sessions while balancing other work and responsibilities.
 
 ### **Trade-offs and Decisions: Did you make any significant trade-offs in your approach?**
 
 #### **Regarding my decision to use SwiftUI List rather than a lazy Container view**
-I used a SwifUI list because it lazily loads and reuses the cells. I did think about using a LazyGrid wrapped in a ScrollView but there doesn't appear to be any layout container in SwiftUI from Apple that reuses cells other than the list component. List therefore appears to be the more performant option and also looks nice!
+I used a SwifUI list because it lazily loads and reuses the cells. I did think about using a LazyVGrid wrapped in a ScrollView but there doesn't appear to be any layout container in SwiftUI from Apple that reuses cells other than the list component. List therefore appears to be the more performant option and also looks nice!
 
 #### **Regarding my decision to target iOS 16 minimum version** 
-- iOS 16 provides enough base SwiftUI funcitonality while supporting within n - 2 version compatibility
+- iOS 16 provides enough base SwiftUI funcitonality while supporting a currentRelease - 2 version compatibility
 - While using the Observation framework available in iOS 17 would have been more performant and nice to have, I'm not so sure I would have seen as much gains for the app in it's current state. This is something I expect to start to see more of a difference once the app begins to scale.
 
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
 I don't have unit tests specifically for the data service implementation specifically targeting the caching functionality. With more time, I'd definitely take a closer look into understanding how I could organize my code to be able to accomplish this. This was my first time working with URLCache and it was very much a guess and test approach while working with the Charles application for Mac. I also went back and forth over whether I should create an actor specifically to protect the cache data with thread safety. Based on what I've gleaned from Apple's documentation, URLCache appears to be thread safe but I've also read some conflicting information on the internet regarding use of storedCachedResponse functions and whether my use of those functions warrants protecting it with actor isolation.
-I also appear to be having issues controlling exactly when URLCache decides to cache or not. I wanted to make it so that the cache would be thrown out if a request yielded a response with a decoding error. Reason being, I don't want the UI to be reflect a stale and invalid response. Of course the user would be able to manually pull to refresh because in this case I know what caching policy to use ahead of time. Whereas I only know if there was a decoding issue after the request has already failed.
+
+I also appear to be having issues controlling exactly when URLCache decides to cache or not. I'm currently using a combination of setting the cache policy on the URLRequest and using cache.cachedResponse() and cache.storeCachedResponse to manually get and set the cache. I noticed that the image requests do need me to manually get and set the cache whereas the recipe data appears to rely more on the cache policy set on the request. I suspect this has something to do with the response headers and other metadata coming back on the response.
+
+I wanted to make it so that the cache would be thrown out if a request yielded a response with a decoding error; Reason being, I don't want the UI to be reflect a stale and invalid response. I found this to be a difficult thing to accomplish for the recipe metadata response.
 
 
 ### **Additional Information: Is there anything else we should know? Feel free to share any insights or constraints you encountered.**

@@ -28,7 +28,7 @@ struct AboutUsView: View {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Thank you for checking out **Reciplease! \(Image(systemName: "fork.knife"))** \n")
                             
-                            Text("Danny is an iOS developer and musician living in Baltimore, MD 🦀. When he isn't coding and making music apps, he enjoys taking walks with his pup Charlie and sometimes goes swing dancing around the city. You can find links to his Bluesky below! \n")
+                            Text("Danny is an iOS developer and musician living in Baltimore, MD 🦀. When he isn't coding and making music apps, he enjoys taking walks with his pup Charlie and sometimes goes swing dancing around the city. You can find his Bluesky link below! \n")
                             
                             Text("Charlie is a Jack Russell, Beagle mix. He mostly naps during the day but loves to play at the dog park and eat all the treats! \n")
                             
